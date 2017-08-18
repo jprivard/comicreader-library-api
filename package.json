@@ -1,0 +1,24 @@
+{
+  "name": "comicreader-library-api",
+  "version": "1.0.0",
+  "description": "Library API of Saios' Comic Reader",
+  "main": "server.js",
+  "scripts": {
+    "start": "node library-api/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-network": "docker network create libapi",
+    "api-build": "docker image build -t jprivard/comicreader-library-api .",
+    "api-start": "docker run --rm -p 80:3000 --network libapi --name api jprivard/comicreader-library-api",
+    "mongo-start": "docker run --network libapi --name mongo -p 27017:27017 -v data:/data/db -d mongo:3.4.7"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.7"
+  }
+}

@@ -1,0 +1,6 @@
+.idea
+.git
+comicreader.iml
+node_modules
+data
+npm-debug.log
