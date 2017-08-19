@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(app) {
-    var bookList = require('../controllers/bookListController');
+    let bookList = require('../controllers/bookListController');
 
     app.route('/books')
         .get(bookList.list_all_books)

@@ -1,8 +1,7 @@
-'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var BookSchema = new Schema({
+let BookSchema = new Schema({
     name: {
         type: String,
         Required: 'Name of the Book'

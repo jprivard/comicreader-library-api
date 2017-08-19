@@ -1,52 +1,28 @@
-'use strict';
+let mongoose = require('mongoose');
+let Book = mongoose.model('Books');
 
-var mongoose = require('mongoose'),
-    Book = mongoose.model('Books');
-
-exports.list_all_books = function(req, res) {
-    Book.find({}, function(err, book) {
-        if (err)
-            res.send(err);
-        console.log("Listing all books");
-        res.json(book);
-    });
+exports.list_all_books = async function(req, res) {
+    console.log("Listing all books");
+    res.json(await Book.find({}).select('name').exec());
 };
 
-exports.create_a_book = function(req, res) {
-    var new_book = new Book(req.body);
-    new_book.save(function(err, book) {
-        if (err)
-            res.send(err);
-        console.log("Created a new book");
-        res.json(book);
-    });
+exports.create_a_book = async function(req, res) {
+    console.log("Created a new book");
+    res.json(await Book.create(req.body));
 };
 
-exports.read_a_book = function(req, res) {
-    Book.findById(req.params.bookId, function(err, book) {
-        if (err)
-            res.send(err);
-        console.log("Reading book " + req.params.bookId);
-        res.json(book);
-    });
+exports.read_a_book = async function(req, res) {
+    console.log("Reading book " + req.params.bookId);
+    res.json(await Book.findOne({_id: req.params.bookId}).exec());
 };
 
-exports.update_a_book = function(req, res) {
-    Book.findOneAndUpdate({_id: req.params.bookId}, req.body, {new: true}, function(err, book) {
-        if (err)
-            res.send(err);
-        console.log("Updating book " + req.params.bookId);
-        res.json(book);
-    });
+exports.update_a_book = async function(req, res) {
+    console.log("Updating book " + req.params.bookId);
+    res.json(await Book.findOneAndUpdate({_id: req.params.bookId}, req.body, {new: true}).exec());
 };
 
-exports.delete_a_book = function(req, res) {
-    Book.remove({
-        _id: req.params.bookId
-    }, function(err, book) {
-        if (err)
-            res.send(err);
-        console.log("Deleting book " + req.params.bookId);
-        res.json({ message: 'Book successfully deleted' });
-    });
+exports.delete_a_book = async function(req, res) {
+    console.log("Deleting book " + req.params.bookId);
+    await Book.remove({_id: req.params.bookId}).exec();
+    res.json({ message: 'Book successfully deleted' });
 };
