@@ -5,16 +5,19 @@
   "main": "server.js",
   "scripts": {
     "start": "node library-api/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/unit/**/**.spec.js",
     "create-network": "docker network create libapi",
-    "api-build": "docker image build -t jprivard/comicreader-library-api .",
-    "api-start": "docker run --rm -p 80:3000 --network libapi --name api jprivard/comicreader-library-api",
+    "api-build": "npm run test && docker image build -t comicreader-library-api .",
+    "api-start": "docker run --rm -p 80:3000 --network libapi --name api comicreader-library-api",
     "mongo-start": "docker run --network libapi --name mongo -p 27017:27017 -v data:/data/db -d mongo:3.4.7"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "sinon": "^3.2.1"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

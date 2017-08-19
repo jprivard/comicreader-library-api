@@ -1,28 +1,46 @@
-let mongoose = require('mongoose');
-let Book = mongoose.model('Books');
+class Controller {
+    constructor(book) {
+        this.book = book;
+    }
 
-exports.list_all_books = async function(req, res) {
-    console.log("Listing all books");
-    res.json(await Book.find({}).select('name').exec());
-};
+    list(req, res) {
+        this.display(res, () => {
+            return this.book.find({}).select('name').exec();
+        });
+    }
 
-exports.create_a_book = async function(req, res) {
-    console.log("Created a new book");
-    res.json(await Book.create(req.body));
-};
+    create(req, res) {
+        this.display(res, () => {
+            return this.book.create(req.body);
+        });
+    }
 
-exports.read_a_book = async function(req, res) {
-    console.log("Reading book " + req.params.bookId);
-    res.json(await Book.findOne({_id: req.params.bookId}).exec());
-};
+    read_a_book(req, res) {
+        this.display(res, () => {
+            return this.book.findOne({_id: req.params.bookId}).exec();
+        });
+    }
 
-exports.update_a_book = async function(req, res) {
-    console.log("Updating book " + req.params.bookId);
-    res.json(await Book.findOneAndUpdate({_id: req.params.bookId}, req.body, {new: true}).exec());
-};
+    async update_a_book(req, res) {
+        this.display(res, () => {
+            return this.book.findOneAndUpdate({_id: req.params.bookId}, req.body, {new: true}).exec();
+        });
+    }
 
-exports.delete_a_book = async function(req, res) {
-    console.log("Deleting book " + req.params.bookId);
-    await Book.remove({_id: req.params.bookId}).exec();
-    res.json({ message: 'Book successfully deleted' });
-};
+    async delete_a_book(req, res) {
+        this.display(res, () => {
+            return this.book.remove({_id: req.params.bookId}).exec()
+                .then(() => { return {message: 'Book successfully deleted'}; });
+        });
+    }
+
+    async display(res, func) {
+        try {
+            res.json(await func());
+        } catch (e) {
+            res.json({error: e});
+        }
+    }
+}
+
+module.exports = Controller;

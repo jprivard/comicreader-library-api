@@ -1,13 +1,16 @@
 'use strict';
 module.exports = function(app) {
-    let bookList = require('../controllers/bookListController');
+    let mongoose = require('mongoose');
+    let Book = mongoose.model('Books');
+    let Controller = require('../controllers/bookListController');
+    let controller = new Controller(Book);
 
     app.route('/books')
-        .get(bookList.list_all_books)
-        .post(bookList.create_a_book);
+        .get(controller.list.bind(controller))
+        .post(controller.create.bind(controller));
 
     app.route('/books/:bookId')
-        .get(bookList.read_a_book)
-        .put(bookList.update_a_book)
-        .delete(bookList.delete_a_book);
+        .get(controller.read_a_book.bind(controller))
+        .put(controller.update_a_book.bind(controller))
+        .delete(controller.delete_a_book.bind(controller));
 };
