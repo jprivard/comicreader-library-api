@@ -1,16 +1,19 @@
-'use strict';
-module.exports = function(app) {
-    let mongoose = require('mongoose');
-    let Book = mongoose.model('Books');
-    let Controller = require('../controllers/bookListController');
-    let controller = new Controller(Book);
+class Router {
+    constructor(app, controller) {
+        this.app = app;
+        this.controller = controller;
+    }
 
-    app.route('/books')
-        .get(controller.list.bind(controller))
-        .post(controller.create.bind(controller));
+    setupRoutes() {
+        this.app.route('/books')
+            .get(this.controller.list.bind(this.controller))
+            .post(this.controller.create.bind(this.controller));
 
-    app.route('/books/:bookId')
-        .get(controller.read.bind(controller))
-        .put(controller.update.bind(controller))
-        .delete(controller.delete.bind(controller));
-};
+        this.app.route('/books/:bookId')
+            .get(this.controller.read.bind(this.controller))
+            .put(this.controller.update.bind(this.controller))
+            .delete(this.controller.delete.bind(this.controller));
+    }
+}
+
+module.exports = Router;
