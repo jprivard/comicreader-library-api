@@ -14,8 +14,8 @@ describe('Book List Controller', () => {
         controllerInspector.verify();
     });
 
-    describe('list', () => {
-        it('should display fetch and display all the books', () => {
+    describe('list function', () => {
+        it('should fetch basic book details of entire library and display it', () => {
             controllerInspector
                 .expectsMethodWithArgs('find', {})
                 .expectsMethodWithArgs('select', 'name')
@@ -36,12 +36,12 @@ describe('Book List Controller', () => {
         });
     });
 
-    describe('create', () => {
+    describe('create function', () => {
         it('should create a new book and display it', () => {
             req = {body: {name: 'Destination Moon'}};
             controllerInspector
-                .expectsResolvingMethodWithArgs('create', req.body, 'Worked!')
-                .expectsOutputContaining('Worked!');
+                .expectsResolvingMethodWithArgs('create', req.body, req.body)
+                .expectsOutputContaining(req.body);
 
             controller.create(req, controllerInspector.expressApi);
         });
@@ -56,4 +56,69 @@ describe('Book List Controller', () => {
         });
     });
 
+    describe('read function', () => {
+        it('should fetch and display the details of a book', () => {
+            req = {params: {bookId: '2ac3def'}};
+            controllerInspector
+                .expectsMethodWithArgs('findOne', {_id: '2ac3def'})
+                .expectsResolvingWith({name: 'Destination Moon'})
+                .expectsOutputContaining({name: 'Destination Moon'});
+
+            controller.read(req, controllerInspector.expressApi);
+        });
+
+        it('should display any error message received from mongoose', () => {
+            req = {params: {bookId: '2ac3def'}};
+            controllerInspector
+                .expectsMethodWithArgs('findOne', {_id: '2ac3def'})
+                .expectsRejectingWith('ApplicationError')
+                .expectsOutputContaining({error: 'ApplicationError'});
+
+            controller.read(req, controllerInspector.expressApi);
+        });
+    });
+
+    describe('update function', () => {
+        it('should update a book and display the new object', () => {
+            req = {params: {bookId: '2ac3def'}, body: {name: 'Destination Mars'}};
+            controllerInspector
+                .expectsMethodWithArgs('findOneAndUpdate', {_id: '2ac3def'}, req.body, {new: true})
+                .expectsResolvingWith(req.body)
+                .expectsOutputContaining(req.body);
+
+            controller.update(req, controllerInspector.expressApi);
+        });
+
+        it('should display any error message received from mongoose', () => {
+            req = {params: {bookId: '2ac3def'}, body: {name: 'Destination Mars'}};
+            controllerInspector
+                .expectsMethodWithArgs('findOneAndUpdate', {_id: '2ac3def'}, req.body, {new: true})
+                .expectsRejectingWith('ApplicationError')
+                .expectsOutputContaining({error: 'ApplicationError'});
+
+            controller.update(req, controllerInspector.expressApi);
+        });
+    });
+
+    describe('delete function', () => {
+        it('should remove the book and displays a success message', () => {
+            req = {params: {bookId: '2ac3def'}};
+            controllerInspector
+                .expectsMethodWithArgs('remove', {_id: '2ac3def'})
+                .expectsResolvingWith('Worked!')
+                .expectsOutputContaining({message: 'Book successfully deleted'});
+
+            controller.delete(req, controllerInspector.expressApi);
+        });
+
+        it('should display any error message received from mongoose', () => {
+            req = {params: {bookId: '2ac3def'}};
+            controllerInspector
+                .expectsMethodWithArgs('remove', {_id: '2ac3def'})
+                .expectsRejectingWith('ApplicationError')
+                .expectsOutputContaining({error: 'ApplicationError'});
+
+            controller.delete(req, controllerInspector.expressApi);
+        });
+    });
 });

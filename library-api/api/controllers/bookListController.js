@@ -15,19 +15,19 @@ class Controller {
         });
     }
 
-    read_a_book(req, res) {
+    read(req, res) {
         this.display(res, () => {
             return this.book.findOne({_id: req.params.bookId}).exec();
         });
     }
 
-    async update_a_book(req, res) {
+    update(req, res) {
         this.display(res, () => {
             return this.book.findOneAndUpdate({_id: req.params.bookId}, req.body, {new: true}).exec();
         });
     }
 
-    async delete_a_book(req, res) {
+    delete(req, res) {
         this.display(res, () => {
             return this.book.remove({_id: req.params.bookId}).exec()
                 .then(() => { return {message: 'Book successfully deleted'}; });

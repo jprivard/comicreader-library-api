@@ -14,7 +14,7 @@ class ControllerInspector {
         this.expressMock.verify();
     }
 
-    expectsMethodWithArgs (method, args) {
+    expectsMethodWithArgs (method, ...args) {
         return this.expects(this.mongooseMock, method, args, this.mongooseApi)
     }
 
@@ -40,7 +40,7 @@ class ControllerInspector {
 
     expects (obj, method, args, result) {
         let expectation = obj.expects(method).once();
-        if (!!args) expectation.withArgs(args);
+        if (!!args) expectation.withArgs.apply(expectation, args);
         if (!!result) expectation.returns(result);
         return this;
     }

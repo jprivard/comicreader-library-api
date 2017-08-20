@@ -10,7 +10,7 @@ module.exports = function(app) {
         .post(controller.create.bind(controller));
 
     app.route('/books/:bookId')
-        .get(controller.read_a_book.bind(controller))
-        .put(controller.update_a_book.bind(controller))
-        .delete(controller.delete_a_book.bind(controller));
+        .get(controller.read.bind(controller))
+        .put(controller.update.bind(controller))
+        .delete(controller.delete.bind(controller));
 };
