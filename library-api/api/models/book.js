@@ -6,6 +6,10 @@ let BookSchema = new Schema({
         type: String,
         Required: 'Name of the Book'
     },
+    author: {
+        type: String,
+        default: 'Anonymous'
+    },
     Created_date: {
         type: Date,
         default: Date.now
@@ -14,6 +18,10 @@ let BookSchema = new Schema({
         type: String,
         enum: ['pending', 'ongoing', 'completed'],
         default: 'pending'
+    },
+    thumbnail: {
+        type: String,
+        default: ''
     }
 });
 
