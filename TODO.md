@@ -7,7 +7,5 @@
 * Add Language support on LAYOUT model
 
 ### On a Technical side
-* Make sure the guidelines for express 4.15 are respected
-* Make a system tests using real docker containers
 * Change the exposed port so the future Frontend will use default 80
 * Add proper log system

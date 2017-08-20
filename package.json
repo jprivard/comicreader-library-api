@@ -7,16 +7,25 @@
     "start": "node library-api/server.js",
     "test": "mocha tests/unit/**/**.spec.js",
     "create-network": "docker network create libapi",
-    "api-build": "npm run test && docker image build -t comicreader-library-api .",
+    "preapi-build": "npm test",
+    "api-build": "docker image build -t comicreader-library-api .",
     "api-start": "docker run --rm -p 80:3000 --network libapi --name api comicreader-library-api",
-    "mongo-start": "docker run --network libapi --name mongo -p 27017:27017 -v data:/data/db -d mongo:3.4.7"
+    "preapi-publish": "npm run system-test",
+    "api-publish": "docker tag comicreader-library-api jprivard/comicreader-library-api:$VERSION",
+    "postapi-publish": "docker push jprivard/comicreader-library-api",
+    "mongo-start": "docker run --network libapi --name mongo -p 27017:27017 -v data:/data/db -d mongo:3.4.7",
+    "presystem-test": "npm run api-build",
+    "system-test": "mocha tests/system/**.spec.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "async-child-process": "^1.1.1",
     "chai": "^4.1.1",
     "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4",
     "sinon": "^3.2.1"
   },
   "dependencies": {

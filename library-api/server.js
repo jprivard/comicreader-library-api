@@ -11,7 +11,7 @@ let port = process.env.PORT || 3000;
 
 /* Setup Mongoose */
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/librarydb');
+mongoose.connect('mongodb://mongo:27017/librarydb');
 
 /* Setup Express */
 app.use(bodyParser.urlencoded({ extended: true }));
