@@ -5,19 +5,20 @@ let JSONAPISerializer = require('jsonapi-serializer').Serializer;
 let BookSchema = new Schema({
     name: {
         type: String,
-        Required: 'Name of the Book'
     },
     author: {
         type: String,
     },
     thumbnail: {
         type: String,
-        default: ''
+    },
+    description: {
+        type: String,
     }
 });
 
 let BookSerializer = new JSONAPISerializer('books', {
-    attributes: ['name', 'author', 'thumbnail']
+    attributes: ['name', 'author', 'thumbnail', 'description']
 });
 
 module.exports = { model: mongoose.model('Books', BookSchema), serializer: BookSerializer };

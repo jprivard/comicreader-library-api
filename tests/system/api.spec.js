@@ -24,12 +24,6 @@ describe('comicreader-library-api', function () {
         await join(exec('docker network rm test'));
     });
 
-    beforeEach(() => {
-    });
-
-    afterEach(() => {
-    });
-
     it('LIST no book on first attempt', async () => {
         content = JSON.parse(await rp('http://localhost/books/'));
         expect(content.data).to.be.an('array').that.is.empty;
@@ -39,7 +33,7 @@ describe('comicreader-library-api', function () {
         options = {
             method: 'POST',
             uri: 'http://localhost/books/',
-            form: {name: 'Destination Moon'},
+            form: {name: 'Destination Moon', thumbnail: 'img.jpg', author: 'Herge'},
         };
         content = JSON.parse(await rp(options));
         expect(content.data.attributes).to.have.deep.property('name', 'Destination Moon');
@@ -59,6 +53,8 @@ describe('comicreader-library-api', function () {
         };
         content = JSON.parse(await rp(options));
         expect(content.data.attributes).to.have.deep.property('name', 'Destination Mars');
+        expect(content.data.attributes).to.have.deep.property('thumbnail', 'img.jpg');
+        expect(content.data.attributes).to.have.deep.property('author', 'Herge');
     });
 
     it('LIST should display added book', async () => {

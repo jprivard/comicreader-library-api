@@ -18,7 +18,7 @@ describe('Book List Controller', () => {
         it('should fetch basic book details of entire library and display it', () => {
             controllerInspector
                 .expectsMethodWithArgs('find', {})
-                .expectsMethodWithArgs('select', 'name')
+                .expectsMethodWithArgs('select', 'name author thumbnail')
                 .expectsResolvingWith([])
                 .expectsOutputContaining({data: []});
 
@@ -28,7 +28,7 @@ describe('Book List Controller', () => {
         it('should display any error message received from mongoose', () => {
             controllerInspector
                 .expectsMethodWithArgs('find', {})
-                .expectsMethodWithArgs('select', 'name')
+                .expectsMethodWithArgs('select', 'name author thumbnail')
                 .expectsRejectingWith('ApplicationError')
                 .expectsOutputContaining({data: 'ApplicationError'});
 

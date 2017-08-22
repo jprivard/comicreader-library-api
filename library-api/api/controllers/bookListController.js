@@ -6,7 +6,7 @@ class Controller {
 
     list(req, res) {
         this.display(res, () => {
-            return this.book.find({}).select('name').exec().then(this.serialize.bind(this));
+            return this.book.find({}).select('name author thumbnail').exec().then(this.serialize.bind(this));
         });
     }
 
