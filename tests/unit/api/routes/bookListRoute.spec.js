@@ -10,7 +10,7 @@ describe('Book List Route', () => {
     let controllerInspector = null;
 
     beforeEach(() => {
-        app = {route: ()=>{}, get: ()=>{}, post: ()=>{}, put: ()=> {}, update: ()=>{}, delete: ()=>{}};
+        app = {use: () =>{}, route: ()=>{}, get: ()=>{}, post: ()=>{}, put: ()=> {}, update: ()=>{}, delete: ()=>{}};
         controllerInspector = new ControllerInspector();
         controller = new Controller(controllerInspector.mongooseApi);
         appMock = sinon.mock(app);

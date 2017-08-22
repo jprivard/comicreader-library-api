@@ -9,3 +9,4 @@
 ### On a Technical side
 * Change the exposed port so the future Frontend will use default 80
 * Add proper log system
+* More comprehensive unit test to incorporate the newly added serializer

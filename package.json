@@ -31,6 +31,7 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "jsonapi-serializer": "^3.5.5",
     "mongoose": "^4.11.7"
   }
 }

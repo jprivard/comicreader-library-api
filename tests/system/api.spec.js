@@ -32,7 +32,7 @@ describe('comicreader-library-api', function () {
 
     it('LIST no book on first attempt', async () => {
         content = JSON.parse(await rp('http://localhost/books/'));
-        expect(content).to.be.an('array').that.is.empty;
+        expect(content.data).to.be.an('array').that.is.empty;
     });
 
     it('CREATE a new book', async () => {
@@ -42,13 +42,13 @@ describe('comicreader-library-api', function () {
             form: {name: 'Destination Moon'},
         };
         content = JSON.parse(await rp(options));
-        expect(content).to.have.deep.property('name', 'Destination Moon');
-        context = {id: content._id};
+        expect(content.data.attributes).to.have.deep.property('name', 'Destination Moon');
+        context = {id: content.data.id};
     });
 
     it('GET a specific book', async () => {
         content = JSON.parse(await rp('http://localhost/books/'+context.id+'/'));
-        expect(content).to.have.deep.property('name', 'Destination Moon');
+        expect(content.data.attributes).to.have.deep.property('name', 'Destination Moon');
     });
 
     it('UPDATE a specific book', async () => {
@@ -58,12 +58,12 @@ describe('comicreader-library-api', function () {
             form: {name: 'Destination Mars'},
         };
         content = JSON.parse(await rp(options));
-        expect(content).to.have.deep.property('name', 'Destination Mars');
+        expect(content.data.attributes).to.have.deep.property('name', 'Destination Mars');
     });
 
     it('LIST should display added book', async () => {
         content = JSON.parse(await rp('http://localhost/books/'));
-        expect(content).to.be.an('array').that.is.not.empty;
+        expect(content.data).to.be.an('array').that.is.not.empty;
     });
 
     it('DELETE a specific book', async () => {
@@ -77,6 +77,6 @@ describe('comicreader-library-api', function () {
 
     it('LIST should be back to display an empty list', async () => {
         content = JSON.parse(await rp('http://localhost/books/'));
-        expect(content).to.be.an('array').that.is.empty;
+        expect(content.data).to.be.an('array').that.is.empty;
     });
 });

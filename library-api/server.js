@@ -4,21 +4,22 @@ let bodyParser = require('body-parser');
 
 let Controller = require('./api/controllers/bookListController');
 let Route = require('./api/routes/bookListRoute');
-let Book = require('./api/models/book');
+let Book = require('./api/models/book').model;
+let BookSerializer = require('./api/models/book').serializer;
 
 let app = express();
 let port = process.env.PORT || 3000;
 
 /* Setup Mongoose */
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://mongo:27017/librarydb');
+mongoose.connect('mongodb://mongo:27017/library');
 
 /* Setup Express */
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /* Setup Controllers */
-let controller = new Controller(mongoose.model('Books'));
+let controller = new Controller(mongoose.model('Books'), BookSerializer);
 
 /* Setup Routes */
 let route = new Route(app, controller);

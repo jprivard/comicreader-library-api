@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+let JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
 let BookSchema = new Schema({
     name: {
@@ -8,16 +9,6 @@ let BookSchema = new Schema({
     },
     author: {
         type: String,
-        default: 'Anonymous'
-    },
-    Created_date: {
-        type: Date,
-        default: Date.now
-    },
-    status: {
-        type: String,
-        enum: ['pending', 'ongoing', 'completed'],
-        default: 'pending'
     },
     thumbnail: {
         type: String,
@@ -25,4 +16,8 @@ let BookSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Books', BookSchema);
+let BookSerializer = new JSONAPISerializer('books', {
+    attributes: ['name', 'author', 'thumbnail']
+});
+
+module.exports = { model: mongoose.model('Books', BookSchema), serializer: BookSerializer };

@@ -20,7 +20,7 @@ describe('Book List Controller', () => {
                 .expectsMethodWithArgs('find', {})
                 .expectsMethodWithArgs('select', 'name')
                 .expectsResolvingWith([])
-                .expectsOutputContaining([]);
+                .expectsOutputContaining({data: []});
 
             controller.list({}, controllerInspector.expressApi);
         });
@@ -30,7 +30,7 @@ describe('Book List Controller', () => {
                 .expectsMethodWithArgs('find', {})
                 .expectsMethodWithArgs('select', 'name')
                 .expectsRejectingWith('ApplicationError')
-                .expectsOutputContaining({error: 'ApplicationError'});
+                .expectsOutputContaining({data: 'ApplicationError'});
 
             controller.list({}, controllerInspector.expressApi);
         });
@@ -41,7 +41,7 @@ describe('Book List Controller', () => {
             req = {body: {name: 'Destination Moon'}};
             controllerInspector
                 .expectsResolvingMethodWithArgs('create', req.body, req.body)
-                .expectsOutputContaining(req.body);
+                .expectsOutputContaining({data: req.body});
 
             controller.create(req, controllerInspector.expressApi);
         });
@@ -62,7 +62,7 @@ describe('Book List Controller', () => {
             controllerInspector
                 .expectsMethodWithArgs('findOne', {_id: '2ac3def'})
                 .expectsResolvingWith({name: 'Destination Moon'})
-                .expectsOutputContaining({name: 'Destination Moon'});
+                .expectsOutputContaining({data:'Destination Moon'});
 
             controller.read(req, controllerInspector.expressApi);
         });
@@ -84,7 +84,7 @@ describe('Book List Controller', () => {
             controllerInspector
                 .expectsMethodWithArgs('findOneAndUpdate', {_id: '2ac3def'}, req.body, {new: true})
                 .expectsResolvingWith(req.body)
-                .expectsOutputContaining(req.body);
+                .expectsOutputContaining({data: req.body});
 
             controller.update(req, controllerInspector.expressApi);
         });
